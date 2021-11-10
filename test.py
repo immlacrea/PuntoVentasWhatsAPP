@@ -1,4 +1,5 @@
 from cliente import Producto, Carrito, BotVentas
+from tiket import Tiket
 
 def test_producto():
     carrito = Carrito()

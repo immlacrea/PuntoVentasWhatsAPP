@@ -1,4 +1,5 @@
 import os 
+from tiket import Tiket
 
 def clear():
     os.system("cls")
@@ -47,6 +48,9 @@ class Carrito:
     def mostrarTotal(self):
         print("total ", self.total())
 
+    def obtenerCarrito(self):
+        return self.carrito
+
     def total(self):
         return self.monto
 
@@ -72,6 +76,7 @@ class BotVentas:
             "2 - Fideo",
             "3 - Pan",
             "c - Muestra Carrito",
+            "p - Pagar",
             "s - Salir"
         ]
 
@@ -87,6 +92,7 @@ class BotVentas:
             self.mostrarOpciones()
             op = input("opcion: ")
             clear()
+            if op == "": continue
             if op == "c":
                 carrito.mostrarCarrito()
                 carrito.mostrarTotal()
@@ -96,11 +102,11 @@ class BotVentas:
                 carrito.agregar(self.productos[op])
             elif op == "s":
                 self.estado = False
+            elif op == "p":
+                tiket = Tiket(carrito.obtenerCarrito())
+                tiket.generar()
+                self.estado = False
+            
+    
 
-#clase futura para generar tiket
-class Cliente:
-    def __init__(self, nombre, apellido, listaProductos):
-        self.nombre = nombre
-        self.apellido = apellido
-        self.listaP = listaProductos
     
