@@ -1,3 +1,8 @@
+import os 
+
+def clear():
+    os.system("cls")
+
 class Producto:
     def __init__(self, cod, descripcion, precio):
         self.cod = cod
@@ -31,6 +36,54 @@ class Carrito:
 
     def total(self):
         return self.monto
+
+
+class BotVentas:
+    def __init__(self) -> None:
+        self.productos = {}
+        self.estado = True
+    
+    def cargarProductos(self):
+        with open("data.csv","r") as F:
+            for linea in F:
+                cod, desc, precio = linea.rstrip().split(",")
+                precio = float(precio)
+                producto = Producto(cod,desc,precio)
+                self.productos[cod] = producto
+        print("Productos fueron cargados en el Bot correctamente")
+    
+    def mostrarOpciones(self):
+        listaP = [
+            "1 - Leche",
+            "2 - Fideo",
+            "3 - Pan",
+            "c - Muestra Carrito",
+            "s - Salir"
+        ]
+
+        for item in listaP:
+            print(item)
+
+
+    def inicializar(self):
+        self.cargarProductos()
+        carrito = Carrito()
+        while self.estado:
+            clear()
+            self.mostrarOpciones()
+            op = input("opcion: ")
+            clear()
+            if op == "c":
+                carrito.mostrarCarrito()
+                carrito.mostrarTotal()
+                input("tocar enter..")
+                clear()
+            elif op in "123":
+                carrito.agregar(self.productos[op])
+            elif op == "s":
+                self.estado = False
+        
+
     
 
 

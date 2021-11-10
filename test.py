@@ -1,4 +1,4 @@
-from cliente import Producto, Carrito
+from cliente import Producto, Carrito, BotVentas
 
 def test_producto():
     carrito = Carrito()
@@ -11,4 +11,8 @@ def test_producto():
     
     carrito.mostrarCarrito()
     carrito.mostrarTotal()
+
+def test_bot():
+    bot = BotVentas()
+    bot.inicializar()
 
