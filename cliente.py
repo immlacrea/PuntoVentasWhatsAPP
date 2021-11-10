@@ -3,6 +3,8 @@ import os
 def clear():
     os.system("cls")
 
+
+#clase abstracta
 class Producto:
     def __init__(self, cod, descripcion, precio):
         self.cod = cod
@@ -11,6 +13,17 @@ class Producto:
         self.subtotal = precio
         self.cant = 1
 
+
+#Simula carrito del super
+#Primitivas
+  #agregar ->agrega producto al carrito
+  #quitar ->quita N producto del carrito
+  #eliminar ->elimina producto del carrito
+  #modificar ->agrega N producto al carrito
+
+#testing 
+  #mostrarCarrito muestra los elementos del carrito
+  #mostrarTotal muestra total en pesos de los productos que estan el carrito
 class Carrito:
     def __init__(self) :
         self.carrito = {}
@@ -37,7 +50,8 @@ class Carrito:
     def total(self):
         return self.monto
 
-
+#Emula un punto de venta
+#Inicializar pone en marcha el BOT
 class BotVentas:
     def __init__(self) -> None:
         self.productos = {}
@@ -64,7 +78,7 @@ class BotVentas:
         for item in listaP:
             print(item)
 
-
+    #principal main
     def inicializar(self):
         self.cargarProductos()
         carrito = Carrito()
@@ -82,11 +96,8 @@ class BotVentas:
                 carrito.agregar(self.productos[op])
             elif op == "s":
                 self.estado = False
-        
 
-    
-
-
+#clase futura para generar tiket
 class Cliente:
     def __init__(self, nombre, apellido, listaProductos):
         self.nombre = nombre
