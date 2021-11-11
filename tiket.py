@@ -1,8 +1,12 @@
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch, mm
 from reportlab.lib.utils import ImageReader
-
+import reportlab
+import os
 
 class Tiket:
 
@@ -11,31 +15,46 @@ class Tiket:
 
     def generar(self):
         lienzo = canvas.Canvas("tiketTest.pdf", pagesize=A4)
+        logo = ImageReader("templatetiket.png")
+        lienzo.drawImage(logo,0,0,600,900)
 
+        pdfmetrics.registerFont(TTFont('JosefinSansB',"JosefinSans-Bold.ttf"))
+        lienzo.setFont("JosefinSansB",48)
+        lienzo.setFillColorRGB(105/255, 68/255, 46/255) #marronopaco
+
+        #HEADER LOGO
+        lienzo.drawString(75*mm,260*mm,"El Carlo´")
+        lienzo.setFont("JosefinSansB",15)
+        lienzo.drawString(95*mm,250*mm,"Almacen")
+        lienzo.setFont("JosefinSansB",10)
+        lienzo.drawString(85*mm,243*mm,"Punta Lara 565, Villa Celina")
         
-        lienzo.setFillColor("black")
-        lienzo.setFont('Courier',30)
-        lienzo.drawString(20*mm, 270 *mm, "Lista de productos")
-        lienzo.setFont('Courier',18)
-        
+        #header GRID
+        lienzo.setStrokeColorRGB(105/255, 68/255, 46/255)
+        lienzo.roundRect(20*mm, 210*mm, width=500 ,height=30, radius=0 , stroke=1, fill=1)
+
+        #content grid
+        lienzo.setFillColorRGB(1, 223/255, 213/255)
+        lienzo.drawString(30*mm,214*mm,"DESCRIPCION DEL PRODUCTO")
+        lienzo.drawString(100*mm,214*mm,"CANT")
+        lienzo.drawString(135*mm,214*mm,"PRECIO")
+        lienzo.drawString(170*mm,214*mm,"SUBTOTAL")
+
+        #value grid
+        lienzo.setFillColorRGB(105/255, 68/255, 46/255) #marronopaco
+
         step = 0
         total = 0
         for item in self.productos:
-            linea = "{} ${}x{} subtotal ${}".format(self.productos[item].descripcion, self.productos[item].precio, self.productos[item].cant, self.productos[item].subtotal)
-            lienzo.drawString(50*mm, (230-step)*mm, linea)
-            step -= 10
+            lienzo.drawString(30*mm,(205-step)*mm,self.productos[item].descripcion)
+            lienzo.drawString(103*mm,(205-step)*mm,str(self.productos[item].cant))
+            lienzo.drawString(138*mm,(205-step)*mm,str(self.productos[item].precio))
+            lienzo.drawString(173*mm,(205-step)*mm,str(self.productos[item].subtotal))
+        
+            step += 4
             total += self.productos[item].subtotal
 
-        #total
-        footer = ImageReader("footer.png")
-        lienzo.drawImage(footer,0,0,height=100)
-        lienzo.setFillColor("white")
-        lienzo.setFont('Courier',50)
-        lienzo.drawString(30,35,"TOTAL : {}".format(total))
-
         lienzo.save()
-    
-
     
 
     

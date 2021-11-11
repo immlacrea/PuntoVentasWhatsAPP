@@ -87,6 +87,10 @@ class BotVentas:
     def inicializar(self):
         self.cargarProductos()
         carrito = Carrito()
+        """
+        tiket = Tiket(carrito.obtenerCarrito())
+        tiket.generar()
+        """
         while self.estado:
             clear()
             self.mostrarOpciones()
@@ -98,7 +102,7 @@ class BotVentas:
                 carrito.mostrarTotal()
                 input("tocar enter..")
                 clear()
-            elif op in "123":
+            elif op in "12345":
                 carrito.agregar(self.productos[op])
             elif op == "s":
                 self.estado = False
@@ -106,6 +110,7 @@ class BotVentas:
                 tiket = Tiket(carrito.obtenerCarrito())
                 tiket.generar()
                 self.estado = False
+           
             
     
 
